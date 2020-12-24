@@ -1,0 +1,15 @@
+	case "MODE":
+		// decide to call client.mode or channel.mode
+
+	case "TOPIC":
+	case "NAMES":
+	case "INVITE":
+	case "KICK":
+		//find channel
+
+	case "INFO":
+	case "ISON":
+	case "LIST":
+	case "TIME":
+	case "ADMIN":
+	case "VERSION":
