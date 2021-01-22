@@ -31,6 +31,10 @@ func LoadConfiguration(path string) (*Config, error) {
 		return nil, err
 	}
 
+	// config.required("Name") TODO required values
+	// config.required("Address")
+	// config.required("Channels")
+
 	return &config, nil
 }
 

@@ -1,17 +1,18 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"os"
 
 	"./src/ircd"
 )
 
 func main() {
-	log.Printf("Loading configuration ..")
+	file := flag.String("config", "config.yaml", "configuration file")
+	flag.Parse()
 
-	// load configuration from file args[1]
-	config, err := ircd.LoadConfiguration(os.Args[1])
+	log.Printf("Loading %s ..", *file)
+	config, err := ircd.LoadConfiguration(*file)
 
 	if err != nil {
 		log.Fatal(err)

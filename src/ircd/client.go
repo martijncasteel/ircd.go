@@ -3,6 +3,7 @@ package ircd
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net"
 	"strings"
 )
@@ -24,6 +25,8 @@ func Client(server *server, connection net.Conn) {
 		connection: connection,
 		modes:      []string{},
 	}
+
+	log.Printf("+ %s connected", connection.RemoteAddr().String())
 
 	server.clients[connection] = &client
 	client.run(server)
@@ -51,6 +54,8 @@ func (client *client) run(server *server) {
 		packet = strings.Trim(packet, "\r\n")
 		args := strings.SplitN(packet, " ", 2)
 		args[0] = strings.ToUpper(args[0])
+
+		log.Print(args)
 
 		if !client.registered {
 			if !inList([]string{"PASS", "NICK", "USER", "QUIT"}, args[0]) {

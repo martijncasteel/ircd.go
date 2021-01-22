@@ -15,8 +15,6 @@ type server struct {
 
 // Server is called to create a chat server
 func Server(config *Config) *server {
-	// TODO check required values
-
 	server := server{
 		name:     config.Name,
 		config:   config,
@@ -61,7 +59,7 @@ func (server *server) disconnect(connection net.Conn) {
 		return
 	}
 
-	log.Printf("%s (%s) disconnected", client.nickname, connection.RemoteAddr().String())
+	log.Printf("- %s disconnected (%s)", connection.RemoteAddr().String(), client.nickname)
 
 	for _, channel := range server.channels {
 		channel.disconnect(connection)
@@ -111,9 +109,11 @@ func inList(list []string, str string) bool {
 	return false
 }
 
-// Raise checks for error and terminates if error occured
-func Raise(err error) {
+// Error checks for error and logs it
+func Error(err error) bool {
 	if err != nil {
 		log.Print(err)
+		return true
 	}
+	return false
 }
