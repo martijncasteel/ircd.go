@@ -2,15 +2,22 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"./src/ircd"
 )
 
 func main() {
-	log.Printf("Hello, World!")
+	log.Printf("Loading configuration ..")
 
-	//config file
-	config := ircd.LoadConfiguration("/location/of/config.json")
+	// load configuration from file args[1]
+	config, err := ircd.LoadConfiguration(os.Args[1])
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("%+v\n", config)
 
 	server := ircd.Server(config)
 	server.Run()

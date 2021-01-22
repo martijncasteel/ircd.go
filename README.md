@@ -8,7 +8,7 @@ My irc server uses a goroutine per connection. The basic irc commands are implem
 # start server
 git clone git@github.com:martijncasteel/ircd.go.git
 cd ircd.go
-go run ircd.go
+go run ircd.go config.yaml
 
 # start tcp connection
 telnet localhost 8000

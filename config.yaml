@@ -1,0 +1,8 @@
+# configuration for ircd.go
+name: martijncasteel.com
+motd: Hello and welcome to my server
+
+address: localhost:8010
+
+channels:
+  - "#general"

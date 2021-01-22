@@ -7,27 +7,32 @@ import (
 
 type server struct {
 	name   string
-	config *config
+	config *Config
 
 	channels map[string]*channel
 	clients  map[net.Conn]*client
 }
 
 // Server is called to create a chat server
-func Server(config *config) *server {
+func Server(config *Config) *server {
+	// TODO check required values
+
 	server := server{
-		name:     "martijncasteel.com",
+		name:     config.Name,
 		config:   config,
 		channels: make(map[string]*channel),
 		clients:  make(map[net.Conn]*client),
 	}
 
-	server.channels["#general"] = Channel("#general")
+	for _, element := range config.Channels {
+		// server.channels["#general"] = Channel("#general")
+		server.channels[element] = Channel(element)
+	}
 	return &server
 }
 
 func (server *server) Run() {
-	listener, err := net.Listen("tcp", ":8000")
+	listener, err := net.Listen("tcp", server.config.Address)
 
 	if err != nil {
 		log.Fatalf("Unable to start the server: %s", err.Error())
@@ -35,7 +40,7 @@ func (server *server) Run() {
 	}
 
 	defer listener.Close()
-	log.Printf("Started server on :8000")
+	log.Printf("Started server on %s", server.config.Address)
 
 	for {
 		conn, err := listener.Accept()
@@ -104,4 +109,11 @@ func inList(list []string, str string) bool {
 	}
 
 	return false
+}
+
+// Raise checks for error and terminates if error occured
+func Raise(err error) {
+	if err != nil {
+		log.Print(err)
+	}
 }
